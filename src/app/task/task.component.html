@@ -1,0 +1,90 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-md-4 offset-md-4">
+      <h2 class="text-center mt-4">Task-Check</h2>
+
+      <div class="mt-4">
+        <form (ngSubmit)="addTask(addTaskForm)" #addTaskForm="ngForm">
+          <div style="display: flex; justify-content: center; gap: 2px">
+            <div class="form-group">
+              <input
+                type="text"
+                placeholder="Add a new task"
+                id="newTask"
+                name="newTask"
+                class="form-control"
+                ngModel
+                required
+              />
+            </div>
+            <div>
+              <button type="submit" class="btn btn-primary">Add</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="mt-5">
+
+        <div class="list-group" *ngFor="let task of tasks;let i =index">
+          <button
+            type="button"
+            class="btn btn-primary list-group-item list-group-item-action"
+            (click)="task.editActive = !task.editActive"
+          >
+           <p [ngClass]="{'text-decoration-line-through':task.completed}">  {{ task?.title }} </p>
+          </button>
+
+          <div *ngIf="task.editActive">
+            <div class="card card-body" style="background-color: rgb(245, 244, 244);">
+              <form (ngSubmit)="updateTask(updateTaskForm,task)" #updateTaskForm="ngForm">
+                
+                <div class="form-group mb-3">
+                  <label for="newTitle" class="form-label card-title">Update task:</label>
+                  <input
+                    type="text"
+                    id="newTitle"
+                    name="newTitle"
+                    class="form-control"
+                    [(ngModel)]="task.title"
+                    required
+                  />
+                </div>
+
+                <div class="form-check mb-2">
+                  <input
+                  class="form-check-input"
+                    type="checkbox"
+                    name="taskDone"
+                    id="taskDone"
+                    value="taskDone"
+                    [ngModel]="task.completed"
+                  />
+                  <label for="taskDone" class="form-check-label">Task Done</label>
+                </div>
+
+                <div class="row">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-primary btn-sm" type="submit">Save</button>
+                    </div>
+
+                    <div class="col-auto">
+                     <button class="btn btn-outline-warning btn-sm" type="button"  (click)="task.editActive = !task.editActive">Cancel</button>
+                    </div>
+
+                    <div class="col-auto">
+                    <button class="btn btn-outline-danger btn-sm" type="button"  (click)="deleteTask(task.id!)">Delete</button>
+                    </div>
+                </div>
+               
+                
+              </form>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
